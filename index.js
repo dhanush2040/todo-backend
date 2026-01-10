@@ -10,7 +10,7 @@ require('dotenv').config();
 
 app.use(express.json());
 
-app.use(cors({ origin: process.env.ACCESS_URI, credentials: true }));
+app.use(cors({ origin: [process.env.ACCESS_URI , "http://localhost:5173"], credentials: true }));
 
 mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log("DB is connected"))
