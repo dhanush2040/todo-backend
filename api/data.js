@@ -12,33 +12,31 @@ router.post("/", async (req, res) => {
      if (!user) {
           return res.status(404).json({ message: "User not found" });
      }
-     res.json(user.todoList || { activeTodo: [], completedStatus: [], notCompletedStatus: [] });
+     res.json(user.todoList);
 });
 
 router.post("/profile", async (req, res) => {
-     router.post("/profile", async (req, res) => {
-          const { useremail } = req.body;
-          if (!useremail) {
-               return res.status(400).json({ message: "useremail is required" });
+     const { useremail } = req.body;
+     if (!useremail) {
+          return res.status(400).json({ message: "useremail is required" });
+     }
+     const user = await User.findOne({ useremail });
+     if (!user) {
+          return res.status(404).json({ message: "User not found" });
+     }
+     const todoList = user.todoList || {
+          activeTodo: [],
+          completedStatus: [],
+          notCompletedStatus: []
+     };
+     res.json({
+          username: user.username,
+          useremail: user.useremail,
+          todoListCount: {
+               activeTodo: todoList.activeTodo.length,
+               completedStatus: todoList.completedStatus.length,
+               notCompletedStatus: todoList.notCompletedStatus.length
           }
-          const user = await User.findOne({ useremail });
-          if (!user) {
-               return res.status(404).json({ message: "User not found" });
-          }
-          const todoList = user.todoList || {
-               activeTodo: [],
-               completedStatus: [],
-               notCompletedStatus: []
-          };
-          res.json({
-               username: user.username,
-               useremail: user.useremail,
-               todoListCount: {
-                    activeTodo: todoList.activeTodo.length,
-                    completedStatus: todoList.completedStatus.length,
-                    notCompletedStatus: todoList.notCompletedStatus.length
-               }
-          });
      });
 });
 
