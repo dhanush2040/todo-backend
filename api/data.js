@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const User = require("./../models/Data");
 const router = express.Router();
 
-router.post("/", async (req, res) => {
+router.post("/todo", async (req, res) => {
      const { useremail } = req.body;
      if (!useremail) {
           return res.status(400).json({ message: "useremail is required" });
