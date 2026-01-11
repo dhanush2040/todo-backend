@@ -67,16 +67,16 @@ router.post("/signup", async (req, res) => {
     }
   };
   try {
-    const data = await User.create({ ...userData });
+    const data = (await User.create({ ...userData }));
     if (data) {
-      res.json({ status: "ok", token: { username: data.username, useremail, password } });
+      res.json({ status: "ok", token: { username: data.username, useremail : req.body.useremail } });
     }
   } catch (err) {
     if (err.code === 11000) {
       return res.status(400).json({ status: "no", message: "Email already registered" });
     } else {
       console.log(err);
-      res.status(400).json({ status: "no", message: err.message });
+      res.status(500).json({ status: "no", message: "Something goes wrong!" });
     }
   }
 });
